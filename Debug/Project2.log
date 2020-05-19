@@ -1,21 +1,13 @@
-﻿  pacman.cpp
-C:\Users\andrz\Desktop\c++ obiektowy\Project2\Project2\pacman.cpp(541,23): warning C4018: "<=": niezgodność typu ze znakiem/bez znaku
-C:\Users\andrz\Desktop\c++ obiektowy\Project2\Project2\pacman.cpp(618,23): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
-C:\Users\andrz\Desktop\c++ obiektowy\Project2\Project2\pacman.cpp(630,23): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
-C:\Users\andrz\Desktop\c++ obiektowy\Project2\Project2\pacman.cpp(641,23): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
-C:\Users\andrz\Desktop\c++ obiektowy\Project2\Project2\pacman.cpp(652,23): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
-C:\Users\andrz\Desktop\c++ obiektowy\Project2\Project2\pacman.cpp(656,27): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
-C:\Users\andrz\Desktop\c++ obiektowy\Project2\Project2\pacman.cpp(690,23): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
-C:\Users\andrz\Desktop\c++ obiektowy\Project2\Project2\pacman.cpp(735,41): warning C4305: "argument": obcięcie z "double" do "T"
+﻿  Main.cpp
+C:\Users\andrz\Desktop\c++ obiektowy\Project2\Project2\Main.cpp(14,67): warning C4244: "argument": konwersja z "const T" do "unsigned int", możliwa utrata danych
           with
           [
               T=float
           ]
-C:\Users\andrz\Desktop\c++ obiektowy\Project2\Project2\pacman.cpp(736,41): warning C4305: "argument": obcięcie z "double" do "T"
+C:\Users\andrz\Desktop\c++ obiektowy\Project2\Project2\Main.cpp(14,53): warning C4244: "argument": konwersja z "const T" do "unsigned int", możliwa utrata danych
           with
           [
               T=float
           ]
-C:\Users\andrz\Desktop\c++ obiektowy\Project2\Project2\pacman.cpp(742,23): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
-C:\Users\andrz\Desktop\c++ obiektowy\Project2\Project2\pacman.cpp(750,27): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+C:\Users\andrz\Desktop\c++ obiektowy\Project2\Project2\Main.cpp(66,30): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
   Project2.vcxproj -> C:\Users\andrz\Desktop\c++ obiektowy\Project2\Debug\Project2.exe

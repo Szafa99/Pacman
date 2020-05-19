@@ -3,6 +3,7 @@
 #include <fstream>
 #include <vector>
 #include <typeinfo>
+#include <array>
 const unsigned int INF = 9999;
 const sf::Vector2f windowsize = { 999.9f,829.9f };
 const float borderthicknes = 25.f;
@@ -15,38 +16,11 @@ const float borderthicknes = 25.f;
 
 
 
-class Player
-{
-protected:
-    sf::Vector2i player_direction;
-    float radious;
-    float speed;
-    sf::Texture player_texture;
-    sf::Vector2i blocked_direction;
-    sf::Vector2i next_direction;
-    bool tried_direction = false;
-
-protected:
-    bool colliding(const sf::CircleShape& obiect, const class Board& board, sf::Vector2i dir);
-
-public:
-    sf::Clock time_since_tried_change_dir;
-    sf::CircleShape player;
-public:
-    void keep_player_in_board(sf::CircleShape& Player);
-    void control_moving(sf::CircleShape&, Board& board);
-
-
-public:
-    Player(float radious, sf::Color player_color, sf::Vector2f start_position, float speed);
-
-};
-
-
 class Board
 {
-    friend Player;
+    friend class Player;
     friend class Enemy;
+    friend class Djikstra;
 
 
     sf::Texture AGHtexture;
@@ -73,40 +47,98 @@ public:
 
 
 
+class Player
+{
+    friend class Djikstra;
+protected:
+    sf::Vector2i player_direction;
+    sf::Vector2i blocked_direction;
+    sf::Vector2i next_direction;
+    bool tried_direction = false;
+
+    float radious;
+    float speed;
+    sf::Texture player_texture;
+
+    class Djikstra* djikstra;
+
+protected:
+    bool colliding(const sf::CircleShape& obiect, const class Board& board, sf::Vector2i dir);
+
+public:
+    sf::Clock time_since_tried_change_dir;
+    sf::CircleShape player;
+public:
+    void keep_player_in_board(sf::CircleShape& Player);
+    void control_moving(sf::CircleShape& obiect, Board& board);
+
+
+public:
+    Player(float radious, sf::Color player_color, sf::Vector2f start_position, float speed);
+
+};
 
 
 
 class Enemy:private Player
 {
+    friend class Djikstra;
 private:
-    std::vector<sf::Vector2f> nodecoords;
-    sf::CircleShape refpoint[2000];
+    std::ofstream writetofile;
+    void findnodes();
+    Board* board;
+    sf::Color enemycolor;
+    static unsigned int enemynr;
+private:
+    void control_moving(sf::CircleShape& obiect, Board& board, int node);
+    void choose_enemy_direction(sf::CircleShape& enemy, Board& board, int node);
+
+public:
+    using Player::keep_player_in_board;
+  
+    using Player::player;
+    //sf::CircleShape enemy;
+    //void movingenemy(sf::CircleShape& pacman);
+    void drawenemy(sf::RenderWindow& window, std::vector<Enemy>&);
+
+
+    Enemy(float radious, sf::Color player_color, sf::Vector2f start_position, Board board, float speed);
+};
+
+
+
+
+class Djikstra{
+    friend Enemy;
+private:
+//    Board* board;
+   static sf::Clock algotime;
+    static sf::CircleShape refpoint[2000];
     //int *memopath;
-    int memopath[55];
-    float *shrt_way_node;
+    static bool nodeset;
+    static std::vector<sf::Vector2f> nodecoords;
+    static int memopath[55];
+    bool** reached;
+    float* shrt_way_node;
     bool* visited;
     float shortestconection[4];
     float** edge_length;
 
-    std::ofstream writetofile;
+    float maxalogotime;
     std::ifstream readfromfile;
 
-    Board* board;
+
     sf::Vector2i enemydirection[4];
 private:
+
     void setnodes();
-    void find_edge_length();
+    void find_edge_length(float radious,const Board *board);
     int get_nearest_node();
-    void choose_enemy_direction(sf::CircleShape& pacman, Board& board);
-    bool colliding(const sf::CircleShape& obiect, const Board&, sf::Vector2f tolerance);
-    void findnodes();
+    bool colliding( sf::CircleShape& obiect, const Board&,sf::Vector2f dir, sf::Vector2f tolerance);
 public:
-    void djikstra(const sf::CircleShape* object, const sf::CircleShape& pacman);
-    using Player::keep_player_in_board;
-    sf::CircleShape enemy[4];
-    void movingenemy(sf::CircleShape& pacman);
-    void drawenemy(sf::RenderWindow& window);
+    void djikstra(const std::vector<Enemy>& object, const sf::CircleShape& pacman,const Board &board);
+    void drawpath(sf::RenderWindow & window);
 
+    Djikstra();
 
-    Enemy(float radious, sf::Color player_color, sf::Vector2f start_position, Board board, float speed);
 };
