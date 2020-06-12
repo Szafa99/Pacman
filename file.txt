@@ -1,0 +1,1000 @@
+ 1022  objdump -D statprog 
+ 1023  ./statprog 
+ 1024  gcc -c lab7.o;as nwd.s -o nwd.o; as printrsp.s -o printrsp.o;gcc -no-pie -fPIC lab7.o nwd.o printrsp.o -o statprog 
+ 1025  ./statprog 
+ 1026  gcc -c lab7.o;as nwd.s -o nwd.o; as printrsp.s -o printrsp.o;gcc -no-pie -fPIC lab7.o nwd.o printrsp.o -o statprog 
+ 1027  ./statprog 
+ 1028  objdump -D statprog 
+ 1029  studia
+ 1030  ls
+ 1031  cd assembly/
+ 1032  cd labb7
+ 1033  ls
+ 1034  cd lab7
+ 1035  cd static/
+ 1036  ls
+ 1037  gcc -no-pie -static lab7.o staticlib.a -o statprog 
+ 1038  ls
+ 1039  ls -al
+ 1040  eecho z static !
+ 1041  echo z static
+ 1042  ls -al
+ 1043  stuida
+ 1044  studia
+ 1045  ls
+ 1046  cd assembly/
+ 1047  ls
+ 1048  cd lab7
+ 1049  ls
+ 1050  cd static/
+ 1051  ls -al
+ 1052  echo bez -static
+ 1053  studia
+ 1054  cd assembly/lab7/static/
+ 1055  ./statprog 
+ 1056  63
+ 1057  ./statprog 
+ 1058  ls
+ 1059  du -h statprog 
+ 1060  du -h fullstatprog 
+ 1061  studia
+ 1062  ls
+ 1063  cd assembly/lab7/static/
+ 1064  ls
+ 1065  .ls
+ 1066  ls
+ 1067  ./statprog 
+ 1068  44
+ 1069  11
+ 1070  ./statprog 
+ 1071  studia
+ 1072  cd assembly/lab7/static/
+ 1073  cd ..
+ 1074  LD_LIBRARY_PATH=. ./pdynamic 
+ 1075  LD_LIBRARY_PATH=. ./pdynamic 63
+ 1076  studia
+ 1077  ls
+ 1078  cd assembly/lab7
+ 1079  LD_LIBRARY_PATH=. ./pdynamic 
+ 1080  ls
+ 1081  cd static/
+ 1082  ls
+ 1083  ar printrsp.o nwd.o -r static_lib.a
+ 1084  ar -r staticlib.a printrsp.o nwd.o
+ 1085  gcc -s lab7.o staticlib.a -o statprog 
+ 1086  gcc -s -fPIC lab7.o staticlib.a -o statprog 
+ 1087  gcc -s -no-pie lab7.o staticlib.a -o statprog 
+ 1088  ./statprog 
+ 1089  as printrsp.s -o printrsp.o
+ 1090  ar -r staticlib.a printrsp.o nwd.o
+ 1091  gcc -s -no-pie lab7.o staticlib.a -o statprog 
+ 1092  ./statprog 
+ 1093  as printrsp.s -o printrsp.o
+ 1094  ar -r staticlib.a printrsp.o nwd.o
+ 1095  gcc -s -no-pie lab7.o staticlib.a -o statprog 
+ 1096  ls -al
+ 1097  gcc -s -no-pie lab7.o staticlib.a -o statprog 
+ 1098  ls -al
+ 1099  objdump -D ./statprog 
+ 1100  objdump -D statprog 
+ 1101  ls 
+ 1102  objdump -D staticlib.a
+ 1103  objdump -D statprog 
+ 1104  ls
+ 1105  gcc -no-pie lab7.o staticlib.a -o statprog 
+ 1106  ls
+ 1107  objdump -D staticlib.a 
+ 1108  objdump -D statprog 
+ 1109  gcc -no-pie -static lab7.o staticlib.a -o fullstatprog 
+ 1110  objdump -D fullstatprog 
+ 1111  objdump -D fullstatprog  > tekst.txt
+ 1112  vim tekst.txt 
+ 1113  ./fullstatprog 
+ 1114  vim tekst.txt 
+ 1115  ls
+ 1116  objdump -D statprog 
+ 1117  gcc -g -no-pie lab7.o staticlib.a -o statprog 
+ 1118  gdb statprog 
+ 1119  gcc -g -no-pie lab7.o staticlib.a -o statprog 
+ 1120  gdb statprog 
+ 1121  gcc -g -no-pie lab7.o staticlib.a -o statprog 
+ 1122  ./statprog 
+ 1123  as nwd.s -o nwd.o
+ 1124  ls
+ 1125  ar -r staticlib.a nwd.o printrsp.o
+ 1126  gcc -g -no-pie lab7.o staticlib.a -o statprog 
+ 1127  44
+ 1128  11
+ 1129  gcc -g -no-pie lab7.o staticlib.a -o statprog 
+ 1130  44
+ 1131  gcc -g -no-pie lab7.o staticlib.a -o statprog 
+ 1132  44
+ 1133  ./statprog 
+ 1134  as nwd.s -o nwd.o
+ 1135  gcc -c lab7.c
+ 1136  ar -r staticlib.a nwd.o printrsp.o
+ 1137  gcc -g -no-pie lab7.o staticlib.a -o statprog 
+ 1138  ./statprog 
+ 1139  as nwd.s -o nwd.o
+ 1140  gcc -g -no-pie lab7.o staticlib.a -o statprog 
+ 1141  ./statprog 
+ 1142  ar -r staticlib.a nwd.o printrsp.o
+ 1143  gcc -g -no-pie lab7.o staticlib.a -o statprog 
+ 1144  ./statprog 
+ 1145  as nwd.s -o nwd.o
+ 1146  gcc -g -no-pie lab7.o staticlib.a -o statprog 
+ 1147  ./statprog 
+ 1148  as nwd.s -o nwd.o; gcc -no-pie -s lab7.o nwd.o printrsp.o -o statprog 
+ 1149  ./statprog 
+ 1150  as nwd.s -o nwd.o; gcc -no-pie -s lab7.o nwd.o printrsp.o -o statprog 
+ 1151  ./statprog 
+ 1152  as nwd.s -o nwd.o; gcc -no-pie -s lab7.o nwd.o printrsp.o -o statprog 
+ 1153  ./statprog 
+ 1154  as nwd.s -o nwd.o; gcc -no-pie -s lab7.o nwd.o printrsp.o -o statprog 
+ 1155  ./statprog 
+ 1156  as nwd.s -o nwd.o; gcc -no-pie -s lab7.o nwd.o printrsp.o -o statprog 
+ 1157  ./statprog 
+ 1158  as nwd.s -o nwd.o; gcc -no-pie -s lab7.o nwd.o printrsp.o -o statprog 
+ 1159  ./statprog 
+ 1160  as nwd.s -o nwd.o; gcc -no-pie -s lab7.o nwd.o printrsp.o -o statprog 
+ 1161  ./statprog 
+ 1162  as nwd.s -o nwd.o; gcc -no-pie -s lab7.o nwd.o printrsp.o -o statprog 
+ 1163  ./statprog 
+ 1164  as nwd.s -o nwd.o; gcc -no-pie -s lab7.o nwd.o printrsp.o -o statprog 
+ 1165  ./statprog 
+ 1166  as nwd.s -o nwd.o; gcc -no-pie -s lab7.o nwd.o printrsp.o -o statprog 
+ 1167  ./statprog 
+ 1168  as nwd.s -o nwd.o; gcc -no-pie -s lab7.o nwd.o printrsp.o -o statprog 
+ 1169  ./statprog 
+ 1170  as nwd.s -o nwd.o; gcc -no-pie -s lab7.o nwd.o printrsp.o -o statprog 
+ 1171  ./statprog 
+ 1172  gcc -c lab7.c
+ 1173  as nwd.s -o nwd.o; gcc -no-pie -s lab7.o nwd.o printrsp.o -o statprog 
+ 1174  ./statprog 
+ 1175  cd ..
+ 1176  ls
+ 1177  rm pstatic 
+ 1178  ls
+ 1179  ./pdyn
+ 1180  ./pdynamic
+ 1181  ./pdynls
+ 1182  rm pdynamic 
+ 1183  ls
+ 1184  rm lab7
+ 1185  ls
+ 1186  ./ pdyn
+ 1187  rm pdyn
+ 1188  ls
+ 1189  as printrsp_dynamic.s -o printrsp_dynamic.o
+ 1190  as nwd.s -o nwd.o
+ 1191  gcc -c lab7.c
+ 1192  ls
+ 1193  gcc -shared nwd.o printrsp_dynamic.o -o lib.so 
+ 1194  gcc lab7.o lib.so -o pdynamic
+ 1195  ./pdynamic 
+ 1196  LD_LIBRARY_PATH=. ./pdynamic 
+ 1197  winhome
+ 1198  cd proby/
+ 1199  code .
+ 1200  as nwd.s -o nwd.o; as print.s -o print.o; gcc -c main.c 
+ 1201  ls
+ 1202  as nwd.s -o nwd.o 
+ 1203  gcc -no-pie -s main.o print.o nwd.o -o prog
+ 1204  as -nwd.s -o nwd.o
+ 1205  as nwd.s -o nwd.o
+ 1206  gcc -no-pie -s main.o print.o nwd.o -o prog
+ 1207  ./prog 
+ 1208  gcc -no-pie -s main.o print.o nwd.o -o prog
+ 1209  ./prog 
+ 1210  gcc -no-pie -s main.o print.o nwd.o -o prog
+ 1211  222
+ 1212  winhome
+ 1213  ls
+ 1214  touch proby
+ 1215  rm proby 
+ 1216  mkdir proby
+ 1217  cd proby/
+ 1218  touch nwd.s main.c print.s
+ 1219  code .
+ 1220  ls
+ 1221  code
+ 1222  studia
+ 1223  ls
+ 1224  cd assembly/
+ 1225  cd lab7
+ 1226  code .
+ 1227  gc -c lab7.c; as nwd.s -o nwd; as printrsp_dynamic.s -o printrsp_dynamic.o
+ 1228  gcc -c lab7.c; as nwd.s -o nwd; as printrsp_dynamic.s -o printrsp_dynamic.o
+ 1229  gcc -shared nwd.o lab7.o printrsp_dynamic.o -o dlib.o
+ 1230  ls
+ 1231  rm dlib.o 
+ 1232  gcc -shared nwd.o printrsp_dynamic.o -o lib.so
+ 1233  gcc lab7.o lib.so -o pdynamic 
+ 1234  LD_LIBRARY_PATH=. ./pdynamic 
+ 1235  gcc -shared nwd.o printrsp_dynamic.o -o lib.so
+ 1236  gcc lab7.o lib.so -o pdynamic 
+ 1237  LD_LIBRARY_PATH=. ./pdynamic 
+ 1238  gcc -shared nwd.o printrsp_dynamic.o -o lib.so
+ 1239  gcc lab7.o lib.so -o pdynamic 
+ 1240  LD_LIBRARY_PATH=. ./pdynamic 
+ 1241  as nwd.s -o nwd.o;gcc -shared nwd.o printrsp_dynamic.o -o lib.so
+ 1242  gcc lab7.o lib.so -o pdynamic 
+ 1243  LD_LIBRARY_PATH=. ./pdynamic 
+ 1244  as nwd.s -o nwd.o;gcc -shared nwd.o printrsp_dynamic.o -o lib.so
+ 1245  gcc lab7.o lib.so -o pdynamic 
+ 1246  LD_LIBRARY_PATH=. ./pdynamic 
+ 1247  as nwd.s -o nwd.o;gcc -shared nwd.o printrsp_dynamic.o -o lib.so
+ 1248  gcc lab7.o lib.so -o pdynamic 
+ 1249  LD_LIBRARY_PATH=. ./pdynamic 
+ 1250  gcc lab7.o lib.so -o pdynamic 
+ 1251  as nwd.s -o nwd.o;gcc -shared nwd.o printrsp_dynamic.o -o lib.so
+ 1252  gcc lab7.o lib.so -o pdynamic 
+ 1253  LD_LIBRARY_PATH=. ./pdynamic 
+ 1254  as nwd.s -o nwd.o;gcc -shared nwd.o printrsp_dynamic.o -o lib.so
+ 1255  gcc lab7.o lib.so -o pdynamic 
+ 1256  LD_LIBRARY_PATH=. ./pdynamic 
+ 1257  gcc -c lab7
+ 1258  gcc -c lab7.c
+ 1259  as nwd.s -o nwd.o;gcc -shared nwd.o printrsp_dynamic.o -o lib.so
+ 1260  gcc lab7.o lib.so -o pdynamic 
+ 1261  LD_LIBRARY_PATH=. ./pdynamic 
+ 1262  as nwd.s -o nwd.o;gcc -shared nwd.o printrsp_dynamic.o -o lib.so
+ 1263  gcc lab7.o lib.so -o pdynamic 
+ 1264  LD_LIBRARY_PATH=. ./pdynamic 
+ 1265  as nwd.s -o nwd.o;gcc -shared nwd.o printrsp_dynamic.o -o lib.so
+ 1266  gcc lab7.o lib.so -o pdynamic 
+ 1267  LD_LIBRARY_PATH=. ./pdynamic 
+ 1268  cd static/
+ 1269  ls
+ 1270  code
+ 1271  code .
+ 1272  ls
+ 1273  vim tekst.txt 
+ 1274  tm tekst.txt 
+ 1275  as nwd.s -o nwd.o
+ 1276  ls
+ 1277  ar nwd.o printrsp.o -r staticlib.a 
+ 1278  ar -r staticlib.a nwd.o printrsp.o 
+ 1279  ls
+ 1280  gcc staticlib.a lab7.o -o statprog 
+ 1281  as printrsp.s -o printrsp.o
+ 1282  ar -r staticlib.a nwd.o printrsp.o 
+ 1283  gcc staticlib.a lab7.o -o statprog 
+ 1284  gcc -c lab7.c
+ 1285  ar -r staticlib.a nwd.o printrsp.o 
+ 1286  gcc staticlib.a lab7.o -o statprog 
+ 1287  as nwd.s -o nwd.o
+ 1288  ar -r staticlib.a nwd.o printrsp.o 
+ 1289  gcc staticlib.a lab7.o -o statprog 
+ 1290  cd ..
+ 1291  code .
+ 1292  ar -r staticlib.a nwd.o printrsp.o 
+ 1293  ls
+ 1294  cd static/
+ 1295  ar -r staticlib.a nwd.o printrsp.o 
+ 1296  gcc staticlib.a lab7.o -o statprog 
+ 1297  ls
+ 1298  gcc -c lab7.c
+ 1299  as printrsp.s -o printrsp.o; as nwd.s -o nwd.o
+ 1300  gcc nwd.o printrsp.o lab7.o -o statprog
+ 1301  gcc -no-pie nwd.o printrsp.o lab7.o -o statprog
+ 1302  ./statprog 
+ 1303  as printrsp.s -o printrsp.o; as nwd.s -o nwd.o
+ 1304  gcc -no-pie nwd.o printrsp.o lab7.o -o statprog
+ 1305  ./statprog 
+ 1306  gcc -no-pie nwd.o printrsp.o lab7.o -o statprog
+ 1307  ./statprog 
+ 1308  as printrsp.s -o printrsp.o; as nwd.s -o nwd.o
+ 1309  gcc -no-pie nwd.o printrsp.o lab7.o -o statprog
+ 1310  ./statprog 
+ 1311  as printrsp.s -o printrsp.o; as nwd.s -o nwd.o
+ 1312  as nwd.s -o nwd.o
+ 1313  as nwd.s -o nwd.o;gcc -shared nwd.o printrsp_dynamic.o -o lib.so
+ 1314  gcc lab7.o lib.so -o pdynamic 
+ 1315  LD_LIBRARY_PATH=. ./pdynamic 
+ 1316  as nwd.s -o nwd.o;gcc -shared nwd.o printrsp_dynamic.o -o lib.so
+ 1317  LD_LIBRARY_PATH=. ./pdynamic 
+ 1318  cd static/
+ 1319  code .
+ 1320  ls
+ 1321  cd ..
+ 1322  as printrsp_dynamic.s -o printrsp_dynamic.o; as nwd.s -o nwd.o
+ 1323  gcc 0c lab7.c
+ 1324  gcc -c lab7.c
+ 1325  gcc -shared -fPIC -no-pie lab7.o nwd.o printrsp_dynamic.o -o pdynamic 
+ 1326  LD
+ 1327  gcc -shared -fPIC -no-pie lab7.o nwd.o printrsp_dynamic.o -o pdynamic 
+ 1328  LD_LIBRARY_PATH=. ./pdynamic 
+ 1329  ls
+ 1330  gcc -c lab7.c; as nwd.s -o nwd.o; as printrsp_dynamic.s -o printrsp_dynamic.o
+ 1331  gcc -shared nwd.o printrsp_dynamic.o -o lib.so
+ 1332  gcc -no-pie lab7.o lib.so -o pdynamic 
+ 1333  LD_LIBRARY_PATH=. ./pdynamic 
+ 1334  ls
+ 1335  objdump -D lib.so
+ 1336  ls
+ 1337  objdump -D lib.so
+ 1338  ls
+ 1339  objdump -D pdynamic 
+ 1340  as nwd.s -o nwd.o;gcc -shared nwd.o printrsp_dynamic.o -o lib.so
+ 1341  ls
+ 1342  ./statprog 
+ 1343  as nwd.s -o nwd.o;gcc -shared nwd.o printrsp_dynamic.o -o lib.so
+ 1344  ./statprog 
+ 1345  ls
+ 1346  as nwd.s -o nwd.o
+ 1347  ar -r staticlib.a nwd.o printrsp.o
+ 1348  gcc -no-pie lab7.o staticlib.a -o statprog
+ 1349  ./statprog 
+ 1350  as nwd.s -o nwd.o
+ 1351  gcc -no-pie lab7.o staticlib.a -o statprog
+ 1352  ./statprog 
+ 1353  as nwd.s -o nwd.o
+ 1354  gcc -no-pie lab7.o staticlib.a -o statprog
+ 1355  ./statprog 
+ 1356  as nwd.s -o nwd.o
+ 1357  gcc -no-pie lab7.o staticlib.a -o statprog
+ 1358  ./statprog 
+ 1359  gcc -no-pie lab7.o staticlib.a -o statprog
+ 1360  as nwd.s -o nwd.o
+ 1361  gcc -no-pie lab7.o staticlib.a -o statprog
+ 1362  ./statprog 
+ 1363  gcc -no-pie lab7.o staticlib.a -o statprog
+ 1364  as nwd.s -o nwd.o
+ 1365  gcc -no-pie lab7.o staticlib.a -o statprog
+ 1366  ./statprog 
+ 1367  gcc -no-pie lab7.o staticlib.a -o statprog
+ 1368  as nwd.s -o nwd.o
+ 1369  gcc -no-pie lab7.o staticlib.a -o statprog
+ 1370  ./statprog 
+ 1371  gcc -no-pie lab7.o staticlib.a -o statprog
+ 1372  as nwd.s -o nwd.o
+ 1373  ar -r staticlib.a nwd.o printrsp.o
+ 1374  gcc -no-pie lab7.o staticlib.a -o statprog
+ 1375  ./statprog 
+ 1376  as printrsp.s -o printrsp.o
+ 1377  ar -r staticlib.a nwd.o printrsp.o
+ 1378  gcc -no-pie lab7.o staticlib.a -o statprog
+ 1379  ./statprog 
+ 1380  gcc -no-pie lab7.o staticlib.a -o statprog
+ 1381  as printrsp.s -o printrsp.o
+ 1382  ar -r staticlib.a nwd.o printrsp.o
+ 1383  gcc -no-pie lab7.o staticlib.a -o statprog
+ 1384  44
+ 1385  ./statprog 
+ 1386  as printrsp.s -o printrsp.o
+ 1387  gcc -no-pie lab7.o staticlib.a -o statprog
+ 1388  as printrsp.s -o printrsp.o
+ 1389  ar -r staticlib.a nwd.o printrsp.o
+ 1390  gcc -no-pie lab7.o staticlib.a -o statprog
+ 1391  44
+ 1392  ./statprog 
+ 1393  as nwd.s -o nwd.o
+ 1394  ar -r staticlib.a nwd.o printrsp.o
+ 1395  gcc -no-pie lab7.o staticlib.a -o statprog
+ 1396  ./statprog 
+ 1397  nwd.s -o nwd.o
+ 1398  as nwd.s -o nwd.o
+ 1399  ar -r staticlib.a nwd.o printrsp.o
+ 1400  gcc -no-pie lab7.o staticlib.a -o statprog
+ 1401  ./statprog 
+ 1402  gcc -static -no-pie lab7.o staticlib.a -o fullstatprog
+ 1403  ls
+ 1404  objdump -D staticlib.a 
+ 1405  objdump -D statprog 
+ 1406  sdfghj
+ 1407  sdfghjk
+ 1408  dfghj
+ 1409  sdfg
+ 1410  objdump -D statprog 
+ 1411  studia
+ 1412  cd assembly/
+ 1413  cd lab7
+ 1414  code .
+ 1415  ls
+ 1416  ./printrsp_dynamic
+ 1417  ./pdynamic 
+ 1418  LD_LIBRARY_PATH=. ./pdynamic 
+ 1419  cd static/
+ 1420  ls
+ 1421  ./statprog 
+ 1422  ls
+ 1423  du -h statprog 
+ 1424  du -h fullstatprog 
+ 1425  ls
+ 1426  cd ..
+ 1427  LD_LIBRARY_PATH=. ./pdynamic 
+ 1428  studia
+ 1429  cd assembly/
+ 1430  cd lab
+ 1431  cd lab7
+ 1432  LD_LIBRARY_PATH=. ./pdynamic 
+ 1433  cd static/
+ 1434  ./statprog 
+ 1435  studia
+ 1436  ls
+ 1437  mkdir bashsripts
+ 1438  mkdir podfolder1 podfolder2
+ 1439  touch plik.o plik2.o ./podfolder*
+ 1440  ls
+ 1441  cd podfolder1
+ 1442  ls
+ 1443  cd ..
+ 1444  rls
+ 1445  ls
+ 1446  rm plik.o plik2.o 
+ 1447  mv podfolder bashsripts/
+ 1448  mv -r podfolder bashsripts/
+ 1449  mv -s podfolder bashsripts/
+ 1450  mv -d podfolder bashsripts/
+ 1451  mv -f podfolder bashsripts/
+ 1452  mv -d podfolder > bashsripts/
+ 1453  mv podfolder > bashsripts/
+ 1454  mv podfolder >> bashsripts/
+ 1455  ls
+ 1456  rmdir podfolder1 podfolder2
+ 1457  ls
+ 1458  cd bashsripts/
+ 1459  ls
+ 1460  mkdir podfolder1 podfolder2
+ 1461  ls
+ 1462  cd podfolder1
+ 1463  touch plik1.o plik2.o
+ 1464  cd ..
+ 1465  cd podfolder2
+ 1466  touch plik plik2.o
+ 1467  cd ..
+ 1468  ls
+ 1469  touch o.time
+ 1470  ls
+ 1471  touch skrypt
+ 1472  studia
+ 1473  cd bashsripts/podfolder
+ 1474  cd bashsripts
+ 1475  LS
+ 1476  ls
+ 1477  code .
+ 1478  ls
+ 1479  bash skrypt 
+ 1480  ls
+ 1481  rmdir lol
+ 1482  ls
+ 1483  bash skrypt 
+ 1484  rmkdir folder
+ 1485  ls
+ 1486  rmkdir frytki lol
+ 1487  rmdir frytki lol
+ 1488  ls
+ 1489  bash skrypt 
+ 1490  cd frytki/
+ 1491  ls
+ 1492  bash skrypt 
+ 1493  ls
+ 1494  cd ..
+ 1495  ls
+ 1496  bash skrypt 
+ 1497  bash skrypt podfolder1 podfolder2
+ 1498  ls
+ 1499  cd lold
+ 1500  ls
+ 1501  rmdir frytki l lol
+ 1502  ls
+ 1503  cd ..
+ 1504  rmdir frytki l lol
+ 1505  ls
+ 1506  rm lold/
+ 1507  rmdir lold/
+ 1508  ls
+ 1509  rmdir lold
+ 1510  rmdir -r lold
+ 1511  rmdir -f lold
+ 1512  rmdir -d lold
+ 1513  rmdir -f lold
+ 1514  rm -f lold
+ 1515  rmdir -rf lold
+ 1516  rm -rf lold
+ 1517  ls
+ 1518  bash skrypt podfolder1 podfolder2
+ 1519  ls
+ 1520  rm -rf wynik/
+ 1521  ls
+ 1522  bash skrypt podfolder1 podfolder2
+ 1523  rm -rf wynik/
+ 1524  ls
+ 1525  cd podfolder1
+ 1526  ls
+ 1527  touch najnowszy.o
+ 1528  cd ..
+ 1529  ls
+ 1530  bash skrypt podfolder1 podfolder2
+ 1531  cd wynik/
+ 1532  ls
+ 1533  g++ cwicz.cpp 
+ 1534  ls
+ 1535  ./a.out 
+ 1536  g++ cwicz.cpp 
+ 1537  ./a.out 
+ 1538  g++ cwicz.cpp 
+ 1539  ./a.out 
+ 1540  winhome
+ 1541  mkdir kolos; cd kolos
+ 1542  touch cwicz.cpp
+ 1543  code ..
+ 1544  cd kolos
+ 1545  ls
+ 1546  code .
+ 1547  studia
+ 1548  ls
+ 1549  cd bashsripts/
+ 1550  ls
+ 1551  code . skrypt 
+ 1552  ls
+ 1553  mkdir copy.log
+ 1554  cd podfolder1
+ 1555  touch plik.cc
+ 1556  cd ..
+ 1557  ls
+ 1558  touch ./podfolder2/plik33.cc
+ 1559  ls
+ 1560  bash skrypt 
+ 1561  ls
+ 1562  bash skrypt 
+ 1563  bash skrypt podfolder1 podfolder2
+ 1564  ls
+ 1565  cd copy.log/
+ 1566  ls
+ 1567  cd ..
+ 1568  rmdir copy.log/
+ 1569  ls
+ 1570  touch copy.log
+ 1571  ls
+ 1572  bash skrypt podfolder1 podfolder2
+ 1573  cd wynik2
+ 1574  ls
+ 1575  ls -al
+ 1576  cd ..
+ 1577  rmdir wynik2
+ 1578  cd wynik3
+ 1579  ls
+ 1580  cd ..
+ 1581  rmdir wynik3
+ 1582  ls
+ 1583  bash skrypt podfolder1 podfolder2
+ 1584  rm -rf wynik3
+ 1585  ls
+ 1586  rm -rf wynik/
+ 1587  rm o.time 
+ 1588  ls
+ 1589  bash skrypt podfolder1 podfolder2 
+ 1590  vim copy.log 
+ 1591  bash skrypt podfolder1 podfolder2 
+ 1592  vim copy.log 
+ 1593  g++ cwicz.cpp 
+ 1594  ./a.out 
+ 1595  g++ cwicz.cpp 
+ 1596  ./a.out 
+ 1597  g++ cwicz.cpp 
+ 1598  g++ cwicz.cpp  lol lol
+ 1599  ./a.out lol lol
+ 1600  echo ./a.out lol lol
+ 1601  echo ./a.out lol lol lol
+ 1602  echo ./a.out lol lol lol 33
+ 1603  echo ./a.out 
+ 1604  "./a.out lol lol"
+ 1605  g++ cwicz.cpp  lol lol
+ 1606  g++ cwicz.cpp  
+ 1607  ./a.out lol lol lol 33
+ 1608  ./a.out lol lol 
+ 1609  g++ cwicz.cpp  
+ 1610  ./a.out lol lol 
+ 1611  g++ cwicz.cpp  
+ 1612  ./a.out lol lol 
+ 1613  ./a.out lol lol ls
+ 1614  studia
+ 1615  winhome
+ 1616  cd ..
+ 1617  cd OneDrive/'Studia AGH'
+ 1618  cd bashsripts/
+ 1619  bash skrypt 
+ 1620  ls
+ 1621  rm lol.nowy/
+ 1622  rm -rv lol.nowy/
+ 1623  bash skrypt 
+ 1624  ls
+ 1625  rm -rv lol*
+ 1626  ls
+ 1627  touch lol.cpp podfolder1
+ 1628  bash skrypt podfolder1 podfolder2
+ 1629  wynik.nowy
+ 1630  bash skrypt podfolder1 podfolder2
+ 1631  ls
+ 1632  bash skrypt podfolder1 podfolder2
+ 1633  ls
+ 1634  vim skopiowano 
+ 1635  ls
+ 1636  rm copy.log  lol.cpp 
+ 1637  ls podfolder
+ 1638  ls ./podfolder
+ 1639  ls ./podfolder1
+ 1640  ls ./podfolder2
+ 1641  touch ./podfolder1 plik.cpp
+ 1642  ls
+ 1643  rm plik.cpp 
+ 1644  vim skopiowano 
+ 1645  ls
+ 1646  cd podfolder
+ 1647  cd podfolder1
+ 1648  touch lol.cpp
+ 1649  cd ..
+ 1650  ls
+ 1651  bash skrypt podfolder1 podfolder2
+ 1652  vim wynik.nowy.nowy
+ 1653  rm -rv wynik*
+ 1654  rm -rv wtnik/
+ 1655  ls
+ 1656  bash skrypt podfolder1 podfolder2
+ 1657  ls ./podfolder1
+ 1658  cp podfolder1/lol.cpp wynik
+ 1659  vim wynik/`
+ 1660  bash skrypt podfolder1 podfolder2
+ 1661  vim lol
+ 1662  bash skrypt podfolder1 podfolder2
+ 1663  vim lol.nowy/
+ 1664  ls
+ 1665  rm 0rf skopiowano 
+ 1666  rm -rf skopiowano 
+ 1667  bash skrypt podfolder1 podfolder2
+ 1668  ls
+ 1669  vim skopiowano 
+ 1670  rm -rf wynik koniec
+ 1671  ls
+ 1672  rm -rf lol lol.nowy/
+ 1673  ls
+ 1674  rm skopiowano 
+ 1675  winhome
+ 1676  ls
+ 1677  cd kolos/
+ 1678  ls
+ 1679  code .
+ 1680  studia
+ 1681  ls
+ 1682  cd bashsripts/
+ 1683  ls
+ 1684  rm -rv wynik
+ 1685  ls
+ 1686  rm -rv wynik2 wynik3
+ 1687  ls
+ 1688  code skrypt 
+ 1689  winhome
+ 1690  vim skrypt2 
+ 1691  g++ main.cpp 
+ 1692  ./a.out 
+ 1693  g++ main.cpp 
+ 1694  ./a.out 
+ 1695  g++ main.cpp 
+ 1696  ./a.out 
+ 1697  g++ main.cpp 
+ 1698  ./a.out 
+ 1699  g++ main.cpp 
+ 1700  ./a.out 
+ 1701  g++ main.cpp 
+ 1702  ./a.out 
+ 1703  studia
+ 1704  ls
+ 1705  cd Obiektówka\ AGH/
+ 1706  ls
+ 1707  mkdir zad8
+ 1708  cd zad8
+ 1709  touch main.cpp
+ 1710  code .
+ 1711  cd ..
+ 1712  mkdir inheritate2
+ 1713  cd inheritate2/
+ 1714  touch main.cpp main.h def.cpp
+ 1715  code .
+ 1716  g++ main.cpp 
+ 1717  g++ main.cpp main.h def.cpp 
+ 1718  ./a.out 
+ 1719  g++ main.cpp main.h def.cpp 
+ 1720  ./a.out 
+ 1721  g++ main.cpp main.h def.cpp 
+ 1722  ./a.out 
+ 1723  g++ main.cpp main.h def.cpp 
+ 1724  ./a.out 
+ 1725  lscpu
+ 1726  vim /proc/cpuinfo
+ 1727  g++ main.cpp main.h def.cpp 
+ 1728  ./a.out 
+ 1729  studia 
+ 1730  ls
+ 1731  cd Obiektówka\ AGH/
+ 1732  LS
+ 1733  cd zad8/
+ 1734  ls
+ 1735  code .
+ 1736  g++ main.cpp 
+ 1737  ./a.out 
+ 1738  g++ main.cpp 
+ 1739  ./a.out 
+ 1740  g++ main.cpp 
+ 1741  ./a.out 
+ 1742  g++ main.cpp 
+ 1743  ./a.out 
+ 1744  g++ main.cpp 
+ 1745  ./a.out 
+ 1746  g++ main.cpp 
+ 1747  ./a.out 
+ 1748  studia
+ 1749  ls
+ 1750  cd Obiektówka\ AGH/
+ 1751  ls
+ 1752  cd inheritate2/
+ 1753  cd zad8/
+ 1754  ls
+ 1755  code .
+ 1756  winhome
+ 1757  mkdir jstut
+ 1758  cd jstut/
+ 1759  touch main.js
+ 1760  code main.js 
+ 1761  ls
+ 1762  winhome
+ 1763  cd jstut/
+ 1764  ls
+ 1765  node main.js 
+ 1766  apt install nodejs
+ 1767  node main.js 
+ 1768  winhome
+ 1769  cd c++\ obiektowy/
+ 1770  ls
+ 1771  cd Project2
+ 1772  ls
+ 1773  cd Project2/
+ 1774  ls
+ 1775  git init
+ 1776  ls
+ 1777  git init .
+ 1778  ls
+ 1779  git add
+ 1780  git add .
+ 1781  git commit .
+ 1782  cd ..
+ 1783  ls
+ 1784  cd ..
+ 1785  curl 
+ 1786  curl --version
+ 1787  curl -u "Szafa99" https://api.github.com/user/repos -d '{name":"Pacman-c++","private":true}'
+ 1788  curl -u "Szafa99" https://api.github.com/user/repos -d '{name":"Pacman","private":true}'
+ 1789  curl -u "Szafa99" https://api.github.com/user/repos -d '{"name":"Pacman","private":true}'
+ 1790  ls
+ 1791  cd Project2
+ 1792  ls
+ 1793  cd Project2/
+ 1794  ls
+ 1795  git remote add origin https://github.com/Szafa99/Pacman.git
+ 1796  git push -u origin master
+ 1797  ls
+ 1798  git remote add repo https://github.com/Szafa99/Pacman.git
+ 1799  git push -u repo master
+ 1800  rd .git /S/Q
+ 1801  ls
+ 1802  ls 
+ 1803  ls -al
+ 1804  cd git
+ 1805  cd git/
+ 1806  rm -rf git
+ 1807  ls
+ 1808  ls -al
+ 1809  git add *
+ 1810  git status
+ 1811  git commit -n "Pacman commit"
+ 1812  git commit -n "Pacman"
+ 1813  git commit -m "Pacman commit"
+ 1814  git status
+ 1815  git remote add origin https://github.com/Szafa99/Pacman.git
+ 1816  git push -u origin master
+ 1817  Write Szafa99
+ 1818  write Szafa99
+ 1819  ls
+ 1820  mail
+ 1821  ls
+ 1822  vim dead.letter 
+ 1823  ./sent
+ 1824  winhome 
+ 1825  cd 
+ 1826  ls
+ 1827  winhome
+ 1828  ls
+ 1829  cd ..
+ 1830  ls
+ 1831  cd OneDrive/
+ 1832  ls
+ 1833  cd Studia\ AGH
+ 1834  ls
+ 1835  cd bashsripts/
+ 1836  ls
+ 1837  cd ref/
+ 1838  ls
+ 1839  cd ..
+ 1840  ls
+ 1841  mv main.c ref
+ 1842  ls
+ 1843  rm plik.txt 
+ 1844  ls
+ 1845  cd ref/
+ 1846  ls
+ 1847  gcc main.c -o main
+ 1848  ls
+ 1849  ./main
+ 1850  ls
+ 1851  vim plik.txt 
+ 1852  gcc main.c -o main
+ 1853  ls
+ 1854  rm plik.txt 
+ 1855  ls
+ 1856  ./main
+ 1857  ls
+ 1858  vim plik.txt 
+ 1859  ./main
+ 1860  gcc main.c -o main
+ 1861  ./main
+ 1862  gcc main.c -o main
+ 1863  ./main
+ 1864  gcc main.c -o main
+ 1865  ./main
+ 1866  gcc main.c -o main
+ 1867  ./main
+ 1868  gcc main.c -o main
+ 1869  ./main
+ 1870  gcc main.c -o main
+ 1871  ./main
+ 1872  gcc main.c -o main
+ 1873  ./main
+ 1874  vim plik.txt 
+ 1875  gcc main.c -o main
+ 1876  ./main
+ 1877  gcc main.c -o main
+ 1878  ./main
+ 1879  gcc main.c -o main
+ 1880  ./main
+ 1881  gcc main.c -o main
+ 1882  ./main
+ 1883  gcc main.c -o mainl
+ 1884  ./main
+ 1885  gcc main.c -o main
+ 1886  ./main
+ 1887  ls
+ 1888  rm plik.txt 
+ 1889  gcc main.c -o main
+ 1890  ./main
+ 1891  vim plik.txt 
+ 1892  man write
+ 1893  man write(2)
+ 1894  man write 2
+ 1895  write Szafa99
+ 1896  man write(2)
+ 1897  man write
+ 1898  man man
+ 1899  write man(2)
+ 1900  man(2) wirte
+ 1901  man(2) write
+ 1902  man  write
+ 1903  man -s 2 write
+ 1904  studia
+ 1905  cd bashsripts/
+ 1906  ls
+ 1907  mkdir ref
+ 1908  touch plik.txt
+ 1909  touch main.c
+ 1910  code main.c 
+ 1911  man -s 2 write
+ 1912  man -s 2 close
+ 1913  man -s 2 lseek
+ 1914  studia
+ 1915  ls
+ 1916  cd Obiektówka\ AGH/
+ 1917  ls
+ 1918  mkdir polimorfizm
+ 1919  cd polimorfizm/
+ 1920  touch napraw.cpp
+ 1921  code napraw.cpp 
+ 1922  ls
+ 1923  studia
+ 1924  winhome
+ 1925  ls
+ 1926  cd ..
+ 1927  cd OneDrive/
+ 1928  ls
+ 1929  cd Studia\ AGH
+ 1930  ls
+ 1931  cd Obiektówka\ AGH/
+ 1932  cd polimorfizm/
+ 1933  ls
+ 1934  gcc napraw.cpp 
+ 1935  ls
+ 1936  gcc napraw.cpp 
+ 1937  ls
+ 1938  touch zad2.cpp
+ 1939  code zad2.cpp 
+ 1940  gcc zad2.cpp 
+ 1941  g++ zad2.cpp 
+ 1942  ./zad2.cpp 
+ 1943  ./a.out 
+ 1944  g++ zad2.cpp 
+ 1945  ./a.out 
+ 1946  g++ zad2.cpp 
+ 1947  ./a.out 
+ 1948  g++ zad2.cpp 
+ 1949  ./a.out 
+ 1950  g++ zad2.cpp 
+ 1951  ./a.out 
+ 1952  g++ zad2.cpp 
+ 1953  ./a.out 
+ 1954  g++ zad2.cpp 
+ 1955  ./a.out 
+ 1956  g++ zad2.cpp 
+ 1957  ./a.out 
+ 1958  g++ zad2.cpp 
+ 1959  ./a.out 
+ 1960  g++ zad2.cpp 
+ 1961  ./a.out 
+ 1962  g++ zad2.cpp 
+ 1963  ./a.out 
+ 1964  g++ zad2.cpp 
+ 1965  ./a.out 
+ 1966  g++ zad2.cpp 
+ 1967  ./a.out 
+ 1968  g++ zad2.cpp 
+ 1969  ./a.out 
+ 1970  g++ zad2.cpp 
+ 1971  ./a.out 
+ 1972  g++ zad2.cpp 
+ 1973  ./a.out 
+ 1974  g++ zad2.cpp 
+ 1975  ./a.out 
+ 1976  g++ zad2.cpp 
+ 1977  ./a.out 
+ 1978  g++ zad2.cpp 
+ 1979  ./a.out 
+ 1980  g++ zad2.cpp 
+ 1981  ./a.out 
+ 1982  g++ zad2.cpp 
+ 1983  ./a.out 
+ 1984  g++ zad2.cpp 
+ 1985  ./a.out 
+ 1986  g++ zad2.cpp 
+ 1987  ./a.out 
+ 1988  g++ zad2.cpp 
+ 1989  ./a.out 
+ 1990  g++ zad2.cpp 
+ 1991  ./a.out 
+ 1992  g++ zad2.cpp 
+ 1993  ./a.out 
+ 1994  g++ zad2.cpp 
+ 1995  ./a.out 
+ 1996  g++ zad2.cpp 
+ 1997  ./a.out 
+ 1998  g++ zad2.cpp 
+ 1999  ./a.out 
+ 2000  git status
+ 2001  winhome
+ 2002  ls
+ 2003  cd c++
+ 2004  cd c++\ obiektowy/
+ 2005  ls
+ 2006  cd Project2
+ 2007  ls
+ 2008  cd Project2/
+ 2009  ls
+ 2010  git staatus
+ 2011  git status
+ 2012  git add .
+ 2013  git status
+ 2014  git commit -m "Added the implemented djikstra algorythm"
+ 2015  git status
+ 2016  git log
+ 2017  git push origin master
+ 2018  history >> cat
+ 2019  history >> vim
+ 2020  cat >> history
+ 2021  history >> file.txt

@@ -2,19 +2,26 @@
 
 
 
-Player::Player(float radious, sf::Color player_color, sf::Vector2f start_position, float speed):
+Player::Player(float radious, sf::Color player_color, sf::Vector2f start_position, float speed) :
     radious(radious),
     player(radious),
     speed(speed),
+    huntmode(false),
     player_direction({ 0,0 }),
     blocked_direction({ 0,0 }),
     next_direction({ 0,0 }),
-    djikstra(new Djikstra())
+    last_direction({1,0}),
+    djikstra(new Djikstra()),
+    max_hunt_mode_time(8.f),
+    obiectcolor(player_color),
+    startposition(start_position)
 {
-  
-    player_texture.loadFromFile("Dawka.jpg");
-    player.setTexture(&player_texture);
-   // player.setFillColor(player_color);
+    player_texture = new sf::Texture;
+    if (!player_texture->loadFromFile("Pacman_HD.png")) 
+        exit(0);
+    
+    player.setTexture(player_texture);
+    // player.setFillColor(player_color);
     player.setPosition(start_position.x, start_position.y);
     player.setOrigin({ player.getLocalBounds().width / 2, player.getLocalBounds().height / 2 });
 }
@@ -34,7 +41,7 @@ void Player::keep_player_in_board(sf::CircleShape& player)
 
 
 //template <class type>
-void Player::control_moving(sf::CircleShape & obiect, Board& board)
+void Player::control_moving(sf::CircleShape& obiect, Board& board)
 {
     if (time_since_tried_change_dir.getElapsedTime().asSeconds() > 1.f) {
         tried_direction = false;
@@ -47,20 +54,20 @@ void Player::control_moving(sf::CircleShape & obiect, Board& board)
         return;
     }
 
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-            next_direction = { -1,0 };
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+        next_direction = { -1,0 };
 
-        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-            next_direction = { 1,0 };
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+        next_direction = { 1,0 };
 
-        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-            next_direction = { 0,-1 };
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+        next_direction = { 0,-1 };
 
-        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-            next_direction = { 0,1 };
-        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-            next_direction = { 0,0 };
-    
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+        next_direction = { 0,1 };
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+        next_direction = { 0,0 };
+
 
 
 
@@ -78,13 +85,37 @@ void Player::control_moving(sf::CircleShape & obiect, Board& board)
 
     }
     else player_direction = next_direction;
+    rotate(obiect);
+    
 
     obiect.move({ speed * player_direction.x, speed * player_direction.y });
+    collect_points(board);
 
-    
 }
 
+void Player::rotate(sf::CircleShape& obiect) {
+    if (last_direction.x * player_direction.x == -1) {
+        obiect.rotate(180);
+        last_direction = player_direction;
+    }
+    if (last_direction.y * player_direction.y == -1) {
+        obiect.rotate(180);
+        last_direction = player_direction;
+    }
+    if (last_direction.x == -1 && player_direction.y == 1 || last_direction.y == -1 && player_direction.x == -1 ||
+        last_direction.x == 1 && player_direction.y == -1 || last_direction.y == 1 && player_direction.x == 1) 
+    {
+        obiect.rotate(-90);
+        last_direction = player_direction;
+    }
+    if (last_direction.x == -1 && player_direction.y == -1 || last_direction.y == -1 && player_direction.x == 1 ||
+        last_direction.x == 1 && player_direction.y == 1 || last_direction.y == 1 && player_direction.x == -1)
+    {
+        obiect.rotate(90);
+        last_direction = player_direction;
+    }
 
+}
 
 
 
@@ -115,6 +146,35 @@ bool Player::colliding(const sf::CircleShape& obiect, const Board& board, sf::Ve
 }
 
 
+
+bool Player::objects_colliding(const sf::CircleShape& obiect, const sf::CircleShape& obiect2,float tolerance) {
+    if (abs(obiect.getPosition().x - obiect2.getPosition().x) < tolerance &&
+        abs(obiect.getPosition().y - obiect2.getPosition().y) < tolerance)return true;
+    else return false;
+}
+
+
+void Player::collect_points(const Board& board) {
+    for (int i = 0; i < board.points.size(); i++) {
+        if(board.points[i]!=nullptr)
+        if ( objects_colliding(player,*board.points[i],2.f ) ) {
+            if (board.points[i]->getScale().x==2) {
+                huntmode = true;
+                hunt_mode_time.restart();
+            }
+            delete board.points[i];
+            const_cast<Board&>(board).points[i] = nullptr;
+            points++;
+        }
+   }
+
+    
+
+
+    if (hunt_mode_time.getElapsedTime().asSeconds() > max_hunt_mode_time)
+        huntmode = false;
+}
+
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
 
@@ -130,43 +190,46 @@ Board::Board(sf::Color color, float border_thicknes, float AGH_thicknes2, sf::Ve
     foodcolor(255, 253, 149),
     AGHcoord(AGHcoord)
 {
+    points.reserve(60);
+    sf::CircleShape temp;
+  
     float tolerance = 0.1f;
-    border[0].setSize({ border_thicknes, windowsize.y / 2.f - space / 2.f });  // LEFT-UPPER BORDER
+    border[0].setSize({ border_thicknes, board_size.y / 2.f - space / 2.f });  // LEFT-UPPER BORDER
     border[0].setPosition(0.f, 0.f);
     // nodecoord[0] = { border_thicknes / 2 + space / 2,border_thicknes / 2 + space / 2 }; // start node, going down in the y axis
 
-    border[1].setSize({ border_thicknes,  windowsize.y / 2.f - space / 2.f }); // LEFT-LOWER BORDER
-    border[1].setPosition(0.f, windowsize.y / 2.f + space / 2.f);
+    border[1].setSize({ border_thicknes,  board_size.y / 2.f - space / 2.f }); // LEFT-LOWER BORDER
+    border[1].setPosition(0.f, board_size.y / 2.f + space / 2.f);
 
     // nodecoord[1] = { border_thicknes / 2 + space / 2,windowsize.y - space / 2 }; 
      //////////////////////////////////////////////////
 
-    border[2].setSize({ windowsize.x / 2.f - space / 2.f, border_thicknes + 0.2f });    // UPPER -LEFT BORDER
+    border[2].setSize({ board_size.x / 2.f - space / 2.f, border_thicknes + 0.2f });    // UPPER -LEFT BORDER
     border[2].setPosition(0.f, 0.f);
     //   nodecoord[2] = { windowsize.x / 2.f ,border_thicknes / 2 + space / 2 }; //going 1 further in x axiss
 
-    border[3].setSize({ windowsize.x / 2.f - space / 2.f, border_thicknes + 0.2f });    // UPPER-RIGHT BORDER
-    border[3].setPosition(windowsize.x / 2.f + space / 2.f, 0.f);
+    border[3].setSize({ board_size.x / 2.f - space / 2.f, border_thicknes + 0.2f });    // UPPER-RIGHT BORDER
+    border[3].setPosition(board_size.x / 2.f + space / 2.f, 0.f);
     //  nodecoord[4] = { windowsize.x - space / 2 ,space / 2 + border_thicknes / 2 };
       ///////////////////////////////////////////////////////
 
-    border[4].setSize({ windowsize.x / 2.f - space / 2.f, border_thicknes });   // DOWN-LEFT BORDER
-    border[4].setPosition(0.f, windowsize.y - border_thicknes);
+    border[4].setSize({ board_size.x / 2.f - space / 2.f, border_thicknes });   // DOWN-LEFT BORDER
+    border[4].setPosition(0.f, board_size.y - border_thicknes);
     //  nodecoord[5] = {windowsize.x/2, windowsize.y - border_thicknes / 2 - space / 2};
 
-    border[5].setSize({ windowsize.x / 2.f - space / 2.f, border_thicknes });  //DOWN-LEFT BORDER
-    border[5].setPosition(windowsize.x / 2.f + space / 2.f, windowsize.y - border_thicknes);
+    border[5].setSize({ board_size.x / 2.f - space / 2.f, border_thicknes });  //DOWN-LEFT BORDER
+    border[5].setPosition(board_size.x / 2.f + space / 2.f, board_size.y - border_thicknes);
     //  nodecoord[6] = { windowsize.x-space/2, windowsize.y - border_thicknes / 2 - space / 2 };
 
 
       ////////////////////////////////////////////////////////
 
-    border[6].setSize({ border_thicknes,  windowsize.y / 2.f - space / 2.f }); //RIGHT-UPPER BORDER
-    border[6].setPosition(windowsize.x - border_thicknes, 0.f);
+    border[6].setSize({ border_thicknes,  board_size.y / 2.f - space / 2.f }); //RIGHT-UPPER BORDER
+    border[6].setPosition(board_size.x - border_thicknes, 0.f);
     //  nodecoord[7] = { windowsize.x - space / 2,windowsize.y / 2 };
 
-    border[7].setSize({ border_thicknes,  windowsize.y / 2.f - space / 2.f }); // RIGHT-LOWER BORDER
-    border[7].setPosition(windowsize.x - border_thicknes, windowsize.y / 2.f + space / 2.f);
+    border[7].setSize({ border_thicknes,  board_size.y / 2.f - space / 2.f }); // RIGHT-LOWER BORDER
+    border[7].setPosition(board_size.x - border_thicknes, board_size.y / 2.f + space / 2.f);
 
 
 
@@ -271,39 +334,39 @@ Board::Board(sf::Color color, float border_thicknes, float AGH_thicknes2, sf::Ve
 
         // The inner most down border
 
-    float Innerythicknes = (windowsize.y - border_thicknes - AGHcoord.y - Lettersize.y - 3 * space) / 2;
+    float Innerythicknes = (board_size.y - border_thicknes - AGHcoord.y - Lettersize.y - 3 * space) / 2;
 
-    border[20].setSize({ windowsize.x / 2.f - Innerythicknes - space * 1.5f, Innerythicknes });
+    border[20].setSize({ board_size.x / 2.f - Innerythicknes - space * 1.5f, Innerythicknes });
     border[20].setPosition({ AGHcoord.x,AGHcoord.y + Lettersize.y + 2 * space + Innerythicknes });
 
-    border[21].setSize({ windowsize.x / 2.f - Innerythicknes - space * 1.5f, Innerythicknes });
-    border[21].setPosition({ windowsize.x / 2 + space / 2, AGHcoord.y + Lettersize.y + 2 * space + Innerythicknes });
+    border[21].setSize({ board_size.x / 2.f - Innerythicknes - space * 1.5f, Innerythicknes });
+    border[21].setPosition({ board_size.x / 2 + space / 2, AGHcoord.y + Lettersize.y + 2 * space + Innerythicknes });
 
 
 
 
     // The inner litle higher down border
-    border[22].setSize({ windowsize.x / 2.f - Innerythicknes - space * 1.5f, Innerythicknes });
+    border[22].setSize({ board_size.x / 2.f - Innerythicknes - space * 1.5f, Innerythicknes });
     border[22].setPosition({ Innerythicknes + space , AGHcoord.y + Lettersize.y + space });
 
-    border[23].setSize({ windowsize.x / 2.f - Innerythicknes - space * 1.5f, Innerythicknes });
-    border[23].setPosition({ windowsize.x / 2 + space / 2, AGHcoord.y + Lettersize.y + space });
+    border[23].setSize({ board_size.x / 2.f - Innerythicknes - space * 1.5f, Innerythicknes });
+    border[23].setPosition({ board_size.x / 2 + space / 2, AGHcoord.y + Lettersize.y + space });
 
     //////////////////////////////////////////////
 
     // The inner most high border
-    border[24].setSize({ windowsize.x / 2.f - Innerythicknes - space * 1.5f, Innerythicknes });
+    border[24].setSize({ board_size.x / 2.f - Innerythicknes - space * 1.5f, Innerythicknes });
     border[24].setPosition({ Innerythicknes + space,AGHcoord.y - 2 * space - 2 * Innerythicknes });
 
-    border[25].setSize({ windowsize.x / 2.f - Innerythicknes - space * 1.5f, Innerythicknes });
-    border[25].setPosition({ windowsize.x / 2 + space / 2, AGHcoord.y - 2 * space - 2 * Innerythicknes });
+    border[25].setSize({ board_size.x / 2.f - Innerythicknes - space * 1.5f, Innerythicknes });
+    border[25].setPosition({ board_size.x / 2 + space / 2, AGHcoord.y - 2 * space - 2 * Innerythicknes });
 
     // The inner litle higher down border
-    border[26].setSize({ windowsize.x / 2.f - Innerythicknes - space * 1.5f, Innerythicknes });
+    border[26].setSize({ board_size.x / 2.f - Innerythicknes - space * 1.5f, Innerythicknes });
     border[26].setPosition({ Innerythicknes + space, AGHcoord.y - space - Innerythicknes });
 
-    border[27].setSize({ windowsize.x / 2.f - Innerythicknes - space * 1.5f, Innerythicknes });
-    border[27].setPosition({ windowsize.x / 2.f + space / 2,AGHcoord.y - space - Innerythicknes });
+    border[27].setSize({ board_size.x / 2.f - Innerythicknes - space * 1.5f, Innerythicknes });
+    border[27].setPosition({ board_size.x / 2.f + space / 2,AGHcoord.y - space - Innerythicknes });
 
 
     ////////////////////////////////////////////
@@ -374,34 +437,38 @@ bool Board::colliding(float radious, sf::Vector2f pointcoord)
 void Board::put_points_on_board()
 {
     if (!foodtexture.loadFromFile("piwo.jpg")) { std::cout << "Failed to load texture from file (FOOD)"; exit(0); }
-    int p = 0;
+    sf::CircleShape *temp=new sf::CircleShape;
 
-    for (float j = border_thicknes + space / 2; j < windowsize.x - border_thicknes; j += space)
+    for (float j = border_thicknes + space / 2; j < board_size.x - border_thicknes; j += space)
     {
-        for (float i = border_thicknes + space / 2; i < windowsize.y - border_thicknes; i += (space / 2 + border_thicknes / 2))
+        for (float i = border_thicknes + space / 2; i < board_size.y - border_thicknes; i += (space / 2 + border_thicknes / 2))
         {
 
 
-            if (!colliding(points[p].getRadius(), { j,i }))
+            if (!colliding(foodradious-0.01f, { j,i }))
             {
-                points[p].setOrigin({ foodradious / 2.f,foodradious / 2.f });
-                points[p].setRadius(foodradious);
-                points[p].setFillColor(foodcolor);
-                points[p].setTexture(&foodtexture);
-                points[p++].setPosition({ j,i });
+                temp->setOrigin({ foodradious / 2.f,foodradious / 2.f });
+                temp->setRadius(foodradious);
+                temp->setFillColor(foodcolor);
+                temp->setTexture(&foodtexture);
+                temp->setPosition({ j,i });
+                points.push_back(new sf::CircleShape(*temp));
+                
             }
             if (i == space * 2.5f + 3 * border_thicknes)i += (Lettersize.y + space);
         }
         ///////////////////////////////////////////////////////////////////////////
         for (float y = space * 3.f + 3 * border_thicknes + border_thicknes2 / 2.f; y <= space * 3.f + 2.5f * border_thicknes + Lettersize.y; y += (space / 2 + border_thicknes / 2))
         {
-            if (!colliding(points[p].getRadius(), { j,y }))
+            if (!colliding(foodradious-0.01f, { j,y }))
             {
-                points[p].setOrigin({ foodradious / 2.f,foodradious / 2.f });
-                points[p].setRadius(foodradious);
-                points[p].setTexture(&foodtexture);
-                points[p].setFillColor(foodcolor);
-                points[p++].setPosition({ j,y });
+                temp->setOrigin({ foodradious / 2.f,foodradious / 2.f });
+                temp->setRadius(foodradious);
+                temp->setFillColor(foodcolor);
+                temp->setTexture(&foodtexture);
+                temp->setPosition({ j,y });
+                points.push_back(new sf::CircleShape(*temp));
+             
             }
         }
 
@@ -410,21 +477,26 @@ void Board::put_points_on_board()
     }
 
 
-    for (float j = border_thicknes + space / 2; j < windowsize.x - border_thicknes; j += space)
+    for (float j = border_thicknes + space / 2; j < board_size.x - border_thicknes; j += space)
     {
         float i = Lettersize.y + space * 3.5f + 3 * border_thicknes + 0.2f;
-        if (!colliding(points[p].getRadius(), { j,i }))
+        if (!colliding(foodradious - 0.01f, { j,i }))
         {
-            points[p].setOrigin({ foodradious / 2.f,foodradious / 2.f });
-            points[p].setRadius(foodradious);
-            points[p].setFillColor(foodcolor);
-            points[p].setTexture(&foodtexture);
-            points[p++].setPosition({ j,i });
+            temp->setOrigin({ foodradious / 2.f,foodradious / 2.f });
+            temp->setRadius(foodradious);
+            temp->setFillColor(foodcolor);
+            temp->setTexture(&foodtexture);
+            temp->setPosition({ j,i });
+            points.push_back(new sf::CircleShape(*temp));
+           
         }
     }
 
-
-    // p = 233 narazaie
+    //36
+    points[36]->scale(2,2);
+    points[137]->scale(2,2);
+    points[132]->scale(2,2);
+    points[154]->scale(2,2);
 
 
 
@@ -440,9 +512,10 @@ void Board::drawing(sf::RenderWindow& window)
 {
 
 
-    for (int i = 0; i < 300; i++)
+    for (int i = 0; i < points.size(); i++)
     {
-        window.draw(points[i]);
+        if(points[i]!=nullptr)
+        window.draw(*points[i]);
     }
     for (int i = 0; i < 36; i++)
     {
@@ -458,82 +531,76 @@ void Board::drawing(sf::RenderWindow& window)
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 
-Enemy::Enemy(float radious, sf::Color player_color, sf::Vector2f start_position, Board board, float speed):
+Enemy::Enemy(float radious, sf::Color player_color, sf::Vector2f start_position, Board board, float speed) :
     Player::Player(radious, player_color, start_position, speed),
     board(new Board(board)),
-    enemycolor(player_color)
+    target(0),
+    max_change_target_time(5.f),
+    reached_target(true),
+    max_chase_time(10.f),
+    homenode(17),
+    pathcolor(player_color),
+    deadenemy(new sf::Texture())
 {
-       sf::Texture enemytexture;
+    for (int i = 0; i < 55;i++)
+        memopath[i] = i;
 
-       enemytexture.loadFromFile("Dawka.jpg");
+    if (!player_texture->loadFromFile("enemy"+std::to_string(enemynr)+".png")) 
+        exit(0);
+    
+    if (!deadenemy->loadFromFile("deadenemy.png"))exit(0);
+    obiectcolor = player.getFillColor();
+    player.setTexture(player_texture);
+    player.setTextureRect(sf::IntRect{0,0,300,559});
     time_since_tried_change_dir.restart();
-    player.setTexture(&enemytexture);
-    player.setFillColor(player_color);
+    enemynr++;
 }
 
 
 
-//void Enemy::movingenemy(sf::CircleShape& pacman)
-//{
-//
-//    for (int i = 0; i < 4; i++)
-//    {
-//        if (!Player::colliding(enemy[i], *board, enemydirection[i]))
-//            enemy[i].move({ speed * enemydirection[i].x,speed * enemydirection[i].y });
-//    }
-//    if (time_since_tried_change_dir.getElapsedTime().asSeconds() > 0.5f)
-//    {
-//
-//        choose_enemy_direction(pacman, *board);
-//        time_since_tried_change_dir.restart();
-//
-//    }
-//
-//
-//}
 
-
-
-void Enemy::choose_enemy_direction(sf::CircleShape& enemy, Board& board,int node)
+void Enemy::choose_enemy_direction(sf::CircleShape& enemy, Board& board, int node)
 {
 
 
     int count = 0;
-        sf::Vector2f enemypos = enemy.getPosition();
-       // int parent = djikstra->memopath[node];
-        int parent = node;
-        sf::Vector2f nextpos = djikstra->nodecoords[parent];
-        while (abs(nextpos.x-enemypos.x)<1.f && abs(nextpos.y-enemypos.y)<1.f) {
-//            enemy.setPosition(nextpos);
-           // std::cout << "Enemypos = " << enemypos.x <<" "<<enemypos.y<< " Nodepos = " << nextpos.x << " " << nextpos.y<<std::endl;
+    sf::Vector2f enemypos = enemy.getPosition();
+    int parent = node;
+    sf::Vector2f nextpos = djikstra->nodecoords[parent];
+    while (abs(nextpos.x - enemypos.x) < 1.f && abs(nextpos.y - enemypos.y) < 1.f) {
 
-             nextpos = djikstra->nodecoords[djikstra->memopath[parent]];
-             parent = djikstra->memopath[parent];
-             if (count++ > 20) {
-                 break;
-             }
+        nextpos = djikstra->nodecoords[memopath[parent]];
+        parent = memopath[parent];
+        if (count++ > 20) {
+            break;
         }
-        sf::Vector2f diffrence = { enemypos.x - nextpos.x ,enemypos.y - nextpos.y };
-        if (abs(diffrence.x) >= abs(diffrence.y))
-        {
-            if (enemypos.x > nextpos.x && !djikstra->colliding(player, board, { -speed,0 }, {0.3,0.3}))next_direction = { -1,0 };
-            else if (!djikstra->colliding(player, board, {speed,0 },{ 0.3,0.3 }) )next_direction = { 1,0 };
-        }
-        else
-        {
-            if (enemypos.y > nextpos.y && !djikstra->colliding(player, board, {0, -speed}, { 0.3,0.3 }))next_direction = { 0, -1 };
-            else if (enemypos.y < nextpos.y && !djikstra->colliding(player, board, { 0,speed }, { 0.3,0.3 }))next_direction= { 0, 1 };
-        }
-    
-        keep_player_in_board(enemy);
+    }
+    sf::Vector2f diffrence = { enemypos.x - nextpos.x ,enemypos.y - nextpos.y };
+    if (abs(diffrence.x) >= abs(diffrence.y))
+    {
+        if (enemypos.x > nextpos.x && !djikstra->colliding(player, board, { -speed,0 }, { 0.3,0.3 }))next_direction = { -1,0 };
+        else if (!djikstra->colliding(player, board, { speed,0 }, { 0.3,0.3 }))next_direction = { 1,0 };
+    }
+    else
+    {
+        if (enemypos.y > nextpos.y && !djikstra->colliding(player, board, { 0, -speed }, { 0.3,0.3 }))next_direction = { 0, -1 };
+        else if (enemypos.y < nextpos.y && !djikstra->colliding(player, board, { 0,speed }, { 0.3,0.3 }))next_direction = { 0, 1 };
+    }
 
-   
+    keep_player_in_board(enemy);
+
+
 }
 
 
 
-void Enemy::control_moving(sf::CircleShape& obiect, Board& board, int node) 
+void Enemy::control_moving(sf::CircleShape& obiect, Player& pacman, Board& board, int node)
 {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+        if (chasemode)chasemode = false;
+        else chasemode = true;
+    
+        
     if (time_since_tried_change_dir.getElapsedTime().asSeconds() > 1.f) {
         tried_direction = false;
         next_direction = player_direction;
@@ -546,15 +613,14 @@ void Enemy::control_moving(sf::CircleShape& obiect, Board& board, int node)
     }
 
 
-        choose_enemy_direction(obiect, board, node);
+    choose_enemy_direction(obiect, board, node);
 
 
-     //   if (djikstra->colliding(obiect, board, { next_direction.x * speed, next_direction.y * speed }, {0.3,0.3}))
-        if (colliding(obiect, board, next_direction))
+    if (colliding(obiect, board, next_direction))
     {
-            if (colliding(obiect, board, { player_direction })) {
-            player_direction={ 0,0 };
-            }
+        if (colliding(obiect, board, { player_direction })) {
+            player_direction = { 0,0 };
+        }
         else if (time_since_tried_change_dir.getElapsedTime().asSeconds() > 1.f)
         {
             blocked_direction = next_direction;
@@ -566,22 +632,46 @@ void Enemy::control_moving(sf::CircleShape& obiect, Board& board, int node)
     }
     else player_direction = next_direction;
 
+    if (pacman.huntmode && objects_colliding(this->player, pacman.player,20.f))
+    {
+        pacman.points += 20;
+        is_dead = true;
+        this->player.setTexture(deadenemy);
+        target = homenode;
+    }
+    else if(!pacman.huntmode && objects_colliding(this->player, pacman.player,20.f)) pacman.is_dead=true;
+
     obiect.move({ speed * player_direction.x, speed * player_direction.y });
+}
 
 
+
+int Enemy::gettarget(int pacmannode) {
+    
+    if (is_dead)
+        if (reached_target) { 
+            is_dead = false; 
+            player.setTexture(player_texture);
+    }
+        else return target;
+
+    
+    if (Player::points % 20 < 5 && points>20) {
+        chasemode = true;
+        chasetime.restart();
+    }
+    else if (chasetime.getElapsedTime().asSeconds() > max_chase_time)
+        chasemode = false;
+    
+    if (chasemode) {
+        return pacmannode;
+    }
+    else return (rand() % 30 + rand() % 20);
 }
 
 
 
 
-
-void Enemy::drawenemy(sf::RenderWindow& window,std::vector<Enemy>& enemys)
-{
-    //for (int i = 0; i < 4; i++)
-        window.draw(enemys[0].player);
-
-    //djikstra->drawpath(window);
-}
 
 
 
@@ -589,14 +679,14 @@ void Enemy::drawenemy(sf::RenderWindow& window,std::vector<Enemy>& enemys)
 void Enemy::findnodes()
 {
     // Was to lazy to insert all nodecoords manually, so I created a fuction for that, the coordinates are wrtitten to a file. 
-    int nodes=0;
+    int nodes = 0;
     std::vector<sf::CircleShape> refpoint;
-    refpoint.push_back(sf::CircleShape{0,0});
+    refpoint.push_back(sf::CircleShape{ 0,0 });
     writetofile.open("Nodecoord", std::ofstream::trunc);
     if (!writetofile.is_open())exit(0);
-    for (float i = 0; i < windowsize.y - speed; i += 0.5f)
+    for (float i = 0; i < board_size.y - speed; i += 0.5f)
     {
-        for (float j = 0; j < windowsize.x - speed; j += 0.5f)
+        for (float j = 0; j < board_size.x - speed; j += 0.5f)
         {
 
             refpoint[nodes].setPosition({ j,i });
@@ -637,7 +727,7 @@ void Enemy::findnodes()
 /////////////////////Djikstra
 
 
-Djikstra::Djikstra():
+Djikstra::Djikstra() :
     maxalogotime(0.1f)
 {
     setnodes();
@@ -645,84 +735,98 @@ Djikstra::Djikstra():
 }
 
 
+void Djikstra::init(Enemy& object, int node)
+{
+    for (int i = 0; i < nodecoords.size(); i++) {
+        shrt_way_node[i] = INF;
+        object.memopath[i] = i;
+        visited[i] = false;
+    }
+}
 
 
 
-
-
-void Djikstra::djikstra( const std::vector<Enemy>& object, const sf::CircleShape& pacman,const Board & board)
+void Djikstra::djikstra( std::vector<Enemy>& object, const Player& pacman, const Board& board)
 {
     for (int i = 0; i < nodecoords.size(); i++)
-        refpoint[i].setFillColor(sf::Color::Red);
-    
-    
-    nodecoords.push_back(pacman.getPosition()); // the nodes for those obiects are changing,therfore the algo has to create a new distance matrix every time. Of course it could be optimazed, but for now it's enough
-    for (int i = 0; i < object.size();i++)
-    nodecoords.push_back(object[i].player.getPosition());
-   
+        refpoint[i].setFillColor(sf::Color::Transparent);
 
 
-    int pacmannode = nodecoords.size() - object.size()-1;
-    int enemynode = nodecoords.size()-1;
+    nodecoords.push_back(pacman.player.getPosition()); // the nodes for those obiects are changing,therefore the algo has to create a new matrix with distances between nodes every time. Of course it could be optimazed, but for now it's enough
+    int pacmannode = nodecoords.size()-1;
+    for (int i = 0; i < object.size(); i++)
+        nodecoords.push_back(object[i].player.getPosition());
 
+
+
+     
     if (algotime.getElapsedTime().asSeconds() > maxalogotime) {
-        find_edge_length(object[2].player.getRadius(), &board); // thiss function is creating a matrix with the distances between the nodes. It's memoraized in the array named edge_length
-        for (int i = 0; i < nodecoords.size(); i++) {
-            shrt_way_node[i] = INF;
-            memopath[i] = i;
-            visited[i] = false;
-        }
-
-        memopath[pacmannode] = pacmannode; // the starting node is the node of the hunter - the enemy
-        shrt_way_node[pacmannode] = 0;
-
-
-
-        for (int i = 0; i < nodecoords.size(); i++) { // for every node seeking the nearest unvisited node
-            int nearestnode = get_nearest_node();
-            visited[nearestnode] = true;
-
-            for (int j = 0; j < nodecoords.size(); j++) //then the algo is checking if there is a shoreter path to reach the neighbours of the nearestnode 
-            {
-
-                if (!visited[j] && edge_length[nearestnode][j] != INF && shrt_way_node[j] > shrt_way_node[nearestnode] + edge_length[nearestnode][j]) {
-                    memopath[j] = nearestnode;
-                    shrt_way_node[j] = shrt_way_node[nearestnode] + edge_length[nearestnode][j];
-
-                }
+        find_edge_length(object[2].player.getRadius(), &board); // this function is creating a matrix with the distances between the nodes. It's memoraized in the array named edge_length
+        
+        for (int z = 0; z < object.size(); z++)
+        {
+            if (object[z].change_target_time.getElapsedTime().asSeconds() > object[z].max_change_target_time || object[z].reached_target){ 
+          
+                object[z].target = object[z].gettarget(pacmannode);
+                object[z].change_target_time.restart();
+                object[z].reached_target = false;
             }
+            init(object[z], object[z].target);
 
+            object[z].memopath[object[z].target] = object[z].target; // the starting node is the node of the hunter - the enemy
+            shrt_way_node[object[z].target] = 0;
+
+
+
+            for (int i = 0; i < nodecoords.size(); i++) { // for every node seeking the nearest unvisited node
+                int nearestnode = get_nearest_node();
+                visited[nearestnode] = true;
+
+                for (int j = 0; j < nodecoords.size(); j++) //then the algo is checking if there is a shoreter path to reach the neighbours of the nearestnode 
+                {
+
+                    if (!visited[j] && edge_length[nearestnode][j] != INF && shrt_way_node[j] > shrt_way_node[nearestnode] + edge_length[nearestnode][j]) {
+                        object[z].memopath[j] = nearestnode;
+                        shrt_way_node[j] = shrt_way_node[nearestnode] + edge_length[nearestnode][j];
+                    }
+                }
+
+            }
         }
-        algotime.restart();
+            algotime.restart();
     }
 
     for (int i = 0; i < object.size(); i++) {
-    int temp = memopath[pacmannode+i+1]; //the shortes path is memoraized ine the memopath array. Every element holds the value of it's parent 
-    int count = 0;
+        int temp = object[i].memopath[pacmannode+i+1]; //the shortes path is memoraized ine the memopath array. Every element holds the value of it's parent 
+        int target = object[i].target;
+        int count = 0;    
 
-    while (temp != pacmannode)
-    {
-        count++;
-       if (count > 40)break; // just making sure that the algo will not get stuck in the loop
-    //   refpoint[temp].setFillColor(object[i].enemycolor);
-  
-           refpoint[temp].setFillColor(object[i].enemycolor);
 
-        temp = memopath[temp];
+
+        while (temp != target)
+        {
+            count++;
+            if (count > 40)break; // just making sure that the algo will not get stuck in the loop
+
+            refpoint[temp].setFillColor(object[i].pathcolor);
+
+            temp = object[i].memopath[temp];
+        }
+        count = 0;
+        int node = object[i].memopath[pacmannode+i+1];
+        if (node == object[i].target)object[i].reached_target = true;
+       /* while (node > pacmannode) {
+            node = memopath[node];
+            if (count++ > 40)break;
+        }
+       */
+        object[i].control_moving(const_cast<Enemy&>(object[i]).player, const_cast<Player&>(pacman), const_cast<Board&>(board), node);
     }
-    count = 0;
-    int node = memopath[pacmannode + 1 + i];
-    //while (node > pacmannode) {
-    //    node = memopath[node];
-    //    if (count++ > 40)break;
-    //}
-        const_cast<Enemy&>(object[i]).control_moving(const_cast<Enemy&>(object[i]).player,const_cast<Board &>(board),node);
-    }
 
 
 
 
-    for (int i = 0; i < object.size()+1; i++)
+    for (int i = 0; i < object.size() + 1; i++)
         nodecoords.pop_back();
 }
 
@@ -746,12 +850,12 @@ void Djikstra::setnodes() {
         readfromfile.close();
     }
 
-        edge_length = new float* [nodecoords.size() + 6];
-        //  memopath = new int [nodecoords.size() +5];
-        shrt_way_node = new float[nodecoords.size() + 6];
-        visited = new bool[nodecoords.size() + 6];
-        for (int i = 0; i < nodecoords.size() + 6; i++)
-            edge_length[i] = new float[nodecoords.size() + 6];
+    edge_length = new float* [nodecoords.size() + 6];
+    //  memopath = new int [nodecoords.size() +5];
+    shrt_way_node = new float[nodecoords.size() + 6];
+    visited = new bool[nodecoords.size() + 6];
+    for (int i = 0; i < nodecoords.size() + 6; i++)
+        edge_length[i] = new float[nodecoords.size() + 6];
 
 
 }
@@ -763,7 +867,7 @@ void Djikstra::setnodes() {
 int Djikstra::get_nearest_node()
 {
     float mindist = INF;
-    int node =  0;
+    int node = 0;
     for (int i = 0; i < nodecoords.size(); i++) {
         if (!visited[i] && shrt_way_node[i] < mindist)
         {
@@ -781,7 +885,7 @@ int Djikstra::get_nearest_node()
 
 
 
-bool Djikstra::colliding( sf::CircleShape& obiect, const Board& board,sf::Vector2f dir, sf::Vector2f tolerance)
+bool Djikstra::colliding(sf::CircleShape& obiect, const Board& board, sf::Vector2f dir, sf::Vector2f tolerance)
 {
 
     float radious = obiect.getRadius();
@@ -793,17 +897,17 @@ bool Djikstra::colliding( sf::CircleShape& obiect, const Board& board,sf::Vector
 
         float x = abs(borderposition.x - playerposition.x + dir.x);
         float y = abs(borderposition.y - playerposition.y + dir.y);
-            float difx = radious + bordersize.x / 2;
-            float dify = radious + bordersize.y / 2;
-            if (
-                abs(borderposition.x - playerposition.x + dir.x) + tolerance.x < radious + bordersize.x / 2 &&
-                abs(borderposition.y - playerposition.y + dir.y) + tolerance.y < radious + bordersize.y / 2
-                ) {
-                if (x <= tolerance.x || y <= tolerance.y) {
-                        obiect.move(-dir.x * x, -dir.y * y);
-                }
-                return true;
+        float difx = radious + bordersize.x / 2;
+        float dify = radious + bordersize.y / 2;
+        if (
+            abs(borderposition.x - playerposition.x + dir.x) + tolerance.x < radious + bordersize.x / 2 &&
+            abs(borderposition.y - playerposition.y + dir.y) + tolerance.y < radious + bordersize.y / 2
+            ) {
+            if (x <= tolerance.x || y <= tolerance.y) {
+                obiect.move(-dir.x * x, -dir.y * y);
             }
+            return true;
+        }
     }
     return false;
 
@@ -813,7 +917,7 @@ bool Djikstra::colliding( sf::CircleShape& obiect, const Board& board,sf::Vector
 
 
 
-void Djikstra::find_edge_length(float radious,const Board *board)
+void Djikstra::find_edge_length(float radious, const Board* board)
 {
     sf::Vector2f tolerance2 = { 0.3,0.3 };
     sf::Vector2f tolerance1 = { 0.3,0.3 };
@@ -833,12 +937,12 @@ void Djikstra::find_edge_length(float radious,const Board *board)
         for (int i = 0; i < nodecoords.size(); i++) {
             edge_length[j][i] = INF;
 
-           
+
 
 
             if (abs(nodecoords[i].x - objectpos.x) <= 2 && objectpos.y < nodecoords[i].y && abs(objectpos.y - nodecoords[i].y) <= shortestconection[0])
             {
-                temp.setPosition(objectpos.x, objectpos.y+radious);
+                temp.setPosition(objectpos.x, objectpos.y + radious);
                 if (!colliding(temp, *board, { 0,0 }, tolerance1)) {  // avoiding setting conections between nodes seperated by walls
                     shortestconection[0] = abs(objectpos.y - nodecoords[i].y);
                     nodenr.y = i;
@@ -848,7 +952,7 @@ void Djikstra::find_edge_length(float radious,const Board *board)
             if (abs(nodecoords[i].x - objectpos.x) <= 2 && objectpos.y > nodecoords[i].y && abs(objectpos.y - nodecoords[i].y) <= shortestconection[1])
             {
                 temp.setPosition(objectpos.x, objectpos.y - radious);
-                if (!colliding(temp, *board, {0,0}, tolerance1)) {
+                if (!colliding(temp, *board, { 0,0 }, tolerance1)) {
                     shortestconection[1] = abs(objectpos.y - nodecoords[i].y);
                     nodenr2.y = i;
                 }
@@ -858,7 +962,7 @@ void Djikstra::find_edge_length(float radious,const Board *board)
             if (abs(nodecoords[i].y - objectpos.y) <= 2 && objectpos.x > nodecoords[i].x && abs(objectpos.x - nodecoords[i].x) <= shortestconection[2])
             {
                 temp.setPosition(objectpos.x - radious, objectpos.y);
-                if (!colliding(temp, *board, {0,0}, tolerance2)) {
+                if (!colliding(temp, *board, { 0,0 }, tolerance2)) {
                     shortestconection[2] = abs(objectpos.x - nodecoords[i].x);
                     nodenr.x = i;
                 }
@@ -888,11 +992,11 @@ void Djikstra::find_edge_length(float radious,const Board *board)
     /* for (int i = 0; i < nodecoords.size(); i++) {
          for (int j = 0; j < nodecoords.size(); j++) {
              if (j == 0)std::cout << i << " |   ";
-     
+
              if(edge_length[i][j]==INF)
              std::cout << 11.f<< " ";
               else std::cout << edge_length[i][j]<< " ";
-     
+
          }
          std::cout << std::endl;
      }
@@ -901,24 +1005,53 @@ void Djikstra::find_edge_length(float radious,const Board *board)
      for (int i = 0; i < 3; i++) {
          for (int j = 0; j < 3; j++) {
              if (j == 0)std::cout << i << " |   ";
-     
+
              std::cout << "(" << nodecoords[z].x << "," << nodecoords[z].y << ") ";
              z++;
          }
          std::cout << std::endl;*/
-     //}
-    
+         //}
+
 
 }
 
 
 
 
-void Djikstra::drawpath(sf::RenderWindow &window) {
-   
+void Djikstra::drawpath(sf::RenderWindow& window) {
+
     for (int i = 0; i <= nodecoords.size(); i++)
         window.draw(refpoint[i]);
 }
 
 
 
+Menu::Menu(int* points, sf::Vector2f position) :
+    points(new int(*points)),
+    heart(new sf::Texture())
+{
+    textfont.loadFromFile("menu_font.ttf");
+    pointinfo.setFont(textfont);
+    pointinfo.setPosition(position);
+    pointinfo.setString("Your score: " + std::to_string(*points));
+    pointinfo.setCharacterSize(50);
+    pointinfo.setFillColor(sf::Color::Green);
+    if (!heart->loadFromFile("heart.png"))exit(0);
+    for (int i = 0; i < 3; i++) {
+        sf::Sprite* temp = new sf::Sprite();
+        temp->setTexture(*heart);
+        temp->setPosition({ board_size.x - 150+50*i,position.y });
+        temp->setScale(0.1f,0.1f);
+        pacmanlives.push_back(temp);
+    }
+}
+
+
+void Menu::drawemenu(sf::RenderWindow& window,int *points) {
+    pointinfo.setString("Your score: " + std::to_string(*points));
+    window.draw(pointinfo);
+    for (int i = 0; i < pacmanlives.size(); i++) {
+        if (pacmanlives[i] != nullptr)
+        window.draw(*pacmanlives[i]);
+    }
+}
