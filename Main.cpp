@@ -1,15 +1,18 @@
-#include "pacman.h"
+#include "headers/sBoard.h"
+#include "headers/pawns.h"
+#include "headers/sMenu.h"
+#include "headers/sDjikstra.h"
 
-std::vector<sf::Vector2f> Djikstra::nodecoords;
-sf::CircleShape Djikstra::refpoint[2000];
-bool Djikstra::nodeset = false;
-sf::Clock Djikstra::algotime;
-bool Enemy::chasemode(false);
-unsigned int Enemy::enemynr;
-int Player::points;
-sf::Clock Enemy::chasetime;
+std::vector<sf::Vector2f> sDjikstra::nodecoords;
+sf::CircleShape sDjikstra::refpoint[2000];
+bool sDjikstra::nodeset = false;
+sf::Clock sDjikstra::algotime;
+bool sEnemy::chasemode(false);
+unsigned int sEnemy::enemynr;
+int sPlayer::points;
+sf::Clock sEnemy::chasetime;
 
-void drawenemy(sf::RenderWindow& window, std::vector<class Enemy>& enemys, bool pacmanmode) {
+void drawenemy(sf::RenderWindow& window, std::vector<class sEnemy>& enemys, bool pacmanmode) {
     for (int i = 0; i < enemys.size(); i++) {
         if (pacmanmode && enemys[i].flash_time.getElapsedTime().asSeconds() > 0.2f) {
             if (enemys[i].player.getFillColor() == sf::Color{ 6, 209, 121 })enemys[i].player.setFillColor({ 90, 94, 92 });
@@ -28,11 +31,11 @@ void drawenemy(sf::RenderWindow& window, std::vector<class Enemy>& enemys, bool 
 void freeze() {
     sf::Clock freeze;
     freeze.restart();
-    while (freeze.getElapsedTime().asSeconds()<2.f)
+    while (freeze.getElapsedTime().asSeconds()<1.5f)
     { }
 }
 
-void setdefault(std::vector<Enemy>& enemys, Player& pacman) {
+void setdefault(std::vector<sEnemy>& enemys, sPlayer& pacman) {
     for (auto i = 0; i < enemys.size(); i++)
         enemys[i].player.setPosition(enemys[i].startposition);
     pacman.player.setPosition(pacman.startposition);
@@ -41,16 +44,15 @@ void setdefault(std::vector<Enemy>& enemys, Player& pacman) {
 }
 
 
-bool lives_left(Menu &menu){
-    if ( menu.pacmanlives[2] != nullptr) {
+bool lives_left(sMenu &menu){
+    
         for (int i = 0; i < menu.pacmanlives.size(); i++)
             if (menu.pacmanlives[i] != nullptr) {
                 delete menu.pacmanlives[i];
                 menu.pacmanlives[i] = nullptr;
-                return true;
-            }
+     if (menu.pacmanlives[2] == nullptr) return false;
+     else return true;
     }
-    else if (menu.pacmanlives[2] == nullptr) return false;
 }
 
 
@@ -61,10 +63,10 @@ int main()
     sf::Texture playertexture;
 
 
-    Player pacman(24.8f, sf::Color(), { 200.f,50.f }, 0.3f); // jak zmienisz predkosc na 0.15 to zwieksz promien o 0.1
-    Board board(sf::Color(0, 51, 98), borderthicknes, 40.f, { 75.f,225.f }, { 250.f,380.f }, 50.f);
-    Djikstra djikstra;
-    std::vector<Enemy> enemy;
+    sPlayer pacman(24.8f, sf::Color(), { 200.f,50.f }, 0.3f); 
+    sBoard board(sf::Color(0, 51, 98), borderthicknes, 40.f, { 75.f,225.f }, { 250.f,380.f }, 50.f);
+    sDjikstra djikstra;
+    std::vector<sEnemy> enemy;
     enemy.push_back({ 24.8f, sf::Color::Red, { 50.f, 200.f }, board, 0.3f });
     enemy.push_back({ 24.8f, {235, 52, 235}, { 50.f, 300.f }, board, 0.3f });
     enemy.push_back({ 24.8f, {52, 214, 235}, { 50.f, 400.f }, board, 0.3f });
@@ -72,7 +74,7 @@ int main()
     
     board.put_points_on_board();
     
-    Menu menu(pacman.get_pointer_to_points(),{100.f,board_size.y+20.f});
+    sMenu menu(pacman.get_pointer_to_points(),{100.f,board_size.y+20.f});
 
     sf::Clock time;
 
@@ -102,7 +104,7 @@ int main()
 
         board.drawing(window);
       
-          djikstra.drawpath(window);
+        //  djikstra.drawpath(window); uncomment in order to visualize djikstra path
 
         drawenemy(window, enemy, pacman.huntmode);
 

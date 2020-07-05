@@ -1,48 +1,16 @@
-﻿  pacman.cpp
-C:\Users\andrz\Desktop\c++ obiektowy\Project2\Project2\pacman.cpp(158,23): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
-C:\Users\andrz\Desktop\c++ obiektowy\Project2\Project2\pacman.cpp(515,23): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
-C:\Users\andrz\Desktop\c++ obiektowy\Project2\Project2\pacman.cpp(581,12): warning C4305: "argument": obcięcie z "double" do "T"
+﻿  Main.cpp
+C:\Users\andrz\Desktop\c++ obiektowy\Project2\Project2\Main.cpp(16,23): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+C:\Users\andrz\Desktop\c++ obiektowy\Project2\Project2\Main.cpp(39,24): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+C:\Users\andrz\Desktop\c++ obiektowy\Project2\Project2\Main.cpp(49,27): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+C:\Users\andrz\Desktop\c++ obiektowy\Project2\Project2\Main.cpp(61,70): warning C4244: "argument": konwersja z "const T" do "unsigned int", możliwa utrata danych
           with
           [
               T=float
           ]
-C:\Users\andrz\Desktop\c++ obiektowy\Project2\Project2\pacman.cpp(582,17): warning C4305: "argument": obcięcie z "double" do "T"
+C:\Users\andrz\Desktop\c++ obiektowy\Project2\Project2\Main.cpp(61,55): warning C4244: "argument": konwersja z "const T" do "unsigned int", możliwa utrata danych
           with
           [
               T=float
           ]
-C:\Users\andrz\Desktop\c++ obiektowy\Project2\Project2\pacman.cpp(586,12): warning C4305: "argument": obcięcie z "double" do "T"
-          with
-          [
-              T=float
-          ]
-C:\Users\andrz\Desktop\c++ obiektowy\Project2\Project2\pacman.cpp(587,17): warning C4305: "argument": obcięcie z "double" do "T"
-          with
-          [
-              T=float
-          ]
-C:\Users\andrz\Desktop\c++ obiektowy\Project2\Project2\pacman.cpp(740,23): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
-C:\Users\andrz\Desktop\c++ obiektowy\Project2\Project2\pacman.cpp(751,23): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
-C:\Users\andrz\Desktop\c++ obiektowy\Project2\Project2\pacman.cpp(757,23): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
-C:\Users\andrz\Desktop\c++ obiektowy\Project2\Project2\pacman.cpp(766,27): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
-C:\Users\andrz\Desktop\c++ obiektowy\Project2\Project2\pacman.cpp(781,31): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
-C:\Users\andrz\Desktop\c++ obiektowy\Project2\Project2\pacman.cpp(785,35): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
-C:\Users\andrz\Desktop\c++ obiektowy\Project2\Project2\pacman.cpp(799,23): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
-C:\Users\andrz\Desktop\c++ obiektowy\Project2\Project2\pacman.cpp(829,23): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
-C:\Users\andrz\Desktop\c++ obiektowy\Project2\Project2\pacman.cpp(857,23): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
-C:\Users\andrz\Desktop\c++ obiektowy\Project2\Project2\pacman.cpp(871,23): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
-C:\Users\andrz\Desktop\c++ obiektowy\Project2\Project2\pacman.cpp(922,41): warning C4305: "argument": obcięcie z "double" do "T"
-          with
-          [
-              T=float
-          ]
-C:\Users\andrz\Desktop\c++ obiektowy\Project2\Project2\pacman.cpp(923,41): warning C4305: "argument": obcięcie z "double" do "T"
-          with
-          [
-              T=float
-          ]
-C:\Users\andrz\Desktop\c++ obiektowy\Project2\Project2\pacman.cpp(929,23): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
-C:\Users\andrz\Desktop\c++ obiektowy\Project2\Project2\pacman.cpp(937,27): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
-C:\Users\andrz\Desktop\c++ obiektowy\Project2\Project2\pacman.cpp(1023,23): warning C4018: "<=": niezgodność typu ze znakiem/bez znaku
-C:\Users\andrz\Desktop\c++ obiektowy\Project2\Project2\pacman.cpp(1053,23): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+C:\Users\andrz\Desktop\c++ obiektowy\Project2\Project2\Main.cpp(56): warning C4715: "lives_left”: niewszystkie ścieżki kodu zwracają wartość
   Project2.vcxproj -> C:\Users\andrz\Desktop\c++ obiektowy\Project2\Debug\Project2.exe
