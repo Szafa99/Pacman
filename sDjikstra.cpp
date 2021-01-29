@@ -8,7 +8,7 @@ sDjikstra::sDjikstra() :
     algotime.restart();
 }
 
-
+// inits arrays of data needed for the djikstra algo
 void sDjikstra::init(sEnemy& object, int node)
 {
     for (int i = 0; i < nodecoords.size(); i++) {
@@ -59,6 +59,11 @@ void sDjikstra::djikstra(std::vector<sEnemy>& object, const sPlayer& pacman, con
                 for (int j = 0; j < nodecoords.size(); j++) //then the algo is checking if there is a shoreter path to reach the neighbours of the nearestnode 
                 {
 
+// visited is a boolean array which tels us whether a node has been visited
+// edge_length[nearestnode][j] != INF - makes sure that the node that we are seeking from is no considered
+// shrt_way_node[j] > shrt_way_node[nearestnode] - checks wheter the current shortes parth is smaller, then then path to the considered node plus the distance from it
+// to the node "we are in". 
+//If those requirements are met the previous node is in the memopath overwirtien with the new node and the shortest path is updatet                  
                     if (!visited[j] && edge_length[nearestnode][j] != INF && shrt_way_node[j] > shrt_way_node[nearestnode] + edge_length[nearestnode][j]) {
                         object[z].memopath[j] = nearestnode;
                         shrt_way_node[j] = shrt_way_node[nearestnode] + edge_length[nearestnode][j];
