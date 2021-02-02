@@ -1,5 +1,5 @@
-#PACMAN 
-Pacman implemented using C++. The main purpose of this project was to get better to know the dijkstra algorithm
+# PACMAN 
+Pacman implemented using C++. Path finding using the dijkstra algorithm
 
 
 ![GitHub Logo](images/example.png)
